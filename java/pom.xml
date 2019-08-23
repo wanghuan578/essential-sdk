@@ -49,7 +49,7 @@
     </dependency>
     <dependency>
         <groupId>com.spirit</groupId>
-        <artifactId>tsserialize</artifactId>
+        <artifactId>libtba</artifactId>
         <version>1.0-SNAPSHOT</version>
     </dependency>
     </dependencies>
