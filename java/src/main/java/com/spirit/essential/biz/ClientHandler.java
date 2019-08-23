@@ -3,6 +3,8 @@ package com.spirit.essential.biz;
 
 import com.alibaba.fastjson.JSON;
 import com.spirit.essential.rpc.protocol.thrift.*;
+import com.spirit.essential.session.session;
+import com.spirit.essential.task.Task;
 import com.spirit.tba.core.TsEvent;
 import com.spirit.tba.core.TsRpcHead;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -18,6 +20,7 @@ public class ClientHandler extends SimpleChannelInboundHandler{
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		super.channelActive(ctx);
+		session.getInstance().setCtx(ctx);
     }
 
     @Override
@@ -77,6 +80,8 @@ public class ClientHandler extends SimpleChannelInboundHandler{
 
 			ServiceListRes res = (ServiceListRes) msg;
 			System.out.println("ServiceListRes: " + JSON.toJSONString(res, true));
+
+			Task.getInstance().observation();
 		}
 		else if (msg instanceof ServiceListSyncNotify) {
 
