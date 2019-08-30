@@ -155,7 +155,22 @@ int MainStageHandler::GetServiceInfoSyncRes(void *socket_handler,  void *rpc_mes
 	return 0;
 }
 
+int MainStageHandler::ServiceListSyncNotify(void *socket_handler,  void *rpc_message, void *seda_stagehandler)
+{
+	MsgServiceListSyncNotify *notify = (MsgServiceListSyncNotify*)rpc_message;
 
+        cout<<"MsgServiceListSyncNotify - mode: " << notify->body_.mode << endl;
+	cout<<"route - name: " << notify->body_.route.name << endl;
+	cout<<"route - weight: " << notify->body_.route.weight << endl;
+	cout<<"route - address.ip: " << notify->body_.route.address.ip << endl;
+	cout<<"route - address.port: " << notify->body_.route.address.port << endl;
+
+
+
+        delete notify;
+
+        return 0;
+}
 
 
 

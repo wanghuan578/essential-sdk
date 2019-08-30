@@ -98,35 +98,42 @@ void read_cb(struct bufferevent *bev, void *user_data)
 	SL_Rpc_MessageHeadEx *msg_head = (SL_Rpc_MessageHeadEx*)message;
 	
 	cout << "message type: " << msg_head->type << endl;
-	
+	int rtn = -1;	
 	SL_Seda_RpcMessageEvent rpc_event;
 	switch (msg_head->type)
 	{
 	case common::MessageType::MT_HELLO_NOTIFY:
-		SL_Rpc_MessageParser::message_to_event<MsgHelloNotify>((char*)message, msg_len, (void*)bev, MainStageHandler::HelloNotify, &rpc_event);
+		rtn = SL_Rpc_MessageParser::message_to_event<MsgHelloNotify>((char*)message, msg_len, (void*)bev, MainStageHandler::HelloNotify, &rpc_event);
 		break;
 	
 	case login::MessageType::MT_CLIENT_LOGIN_RES:
-		SL_Rpc_MessageParser::message_to_event<MsgClientLoginRes>((char*)message, msg_len, (void*)bev, MainStageHandler::ClientLoginRes, &rpc_event);
+		rtn = SL_Rpc_MessageParser::message_to_event<MsgClientLoginRes>((char*)message, msg_len, (void*)bev, MainStageHandler::ClientLoginRes, &rpc_event);
 		break;
 	
 	case provider::MessageType::MT_SERVICE_REGISTER_RES:
-		SL_Rpc_MessageParser::message_to_event<MsgServiceRegisterRes>((char*)message, msg_len, (void*)bev, MainStageHandler::ServiceRegisterRes, &rpc_event);
+		rtn = SL_Rpc_MessageParser::message_to_event<MsgServiceRegisterRes>((char*)message, msg_len, (void*)bev, MainStageHandler::ServiceRegisterRes, &rpc_event);
 		break;
 	
 	case consumer::MessageType::MT_SERVICE_LIST_RES:
-		SL_Rpc_MessageParser::message_to_event<MsgGetServiceListRes>((char*)message, msg_len, (void*)bev, MainStageHandler::GetServiceListRes, &rpc_event);
+		rtn = SL_Rpc_MessageParser::message_to_event<MsgGetServiceListRes>((char*)message, msg_len, (void*)bev, MainStageHandler::GetServiceListRes, &rpc_event);
 		break;
 	
 	case service::MessageType::MT_SERVICE_STATEY_RES:
-		SL_Rpc_MessageParser::message_to_event<MsgServiceInfoSyncRes>((char*)message, msg_len, (void*)bev, MainStageHandler::GetServiceInfoSyncRes, &rpc_event);
+		rtn = SL_Rpc_MessageParser::message_to_event<MsgServiceInfoSyncRes>((char*)message, msg_len, (void*)bev, MainStageHandler::GetServiceInfoSyncRes, &rpc_event);
 		break;
-		
+
+	case consumer::MessageType::MT_SERVICE_LIST_SYNC_NOTIFY:
+                rtn = SL_Rpc_MessageParser::message_to_event<MsgServiceListSyncNotify>((char*)message, msg_len, (void*)bev, MainStageHandler::ServiceListSyncNotify, &rpc_event);
+                break;
+	
 	default:
 		break;
 	}
 
-	RpcEvent::Instance()->push(rpc_event);
+	if (rtn >= 0) 
+	{
+		RpcEvent::Instance()->push(rpc_event);
+	}
 
 }
 

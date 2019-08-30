@@ -16,8 +16,7 @@ public:
 	static int ServiceRegisterRes(void *socket_handler,  void *rpc_message, void *seda_stagehandler);
 	static int GetServiceListRes(void *socket_handler,  void *rpc_message, void *seda_stagehandler);
 	static int GetServiceInfoSyncRes(void *socket_handler,  void *rpc_message, void *seda_stagehandler);
-
-
+	static int ServiceListSyncNotify(void *socket_handler,  void *rpc_message, void *seda_stagehandler);
 
 	
 };

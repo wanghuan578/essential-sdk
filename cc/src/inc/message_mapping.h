@@ -27,4 +27,6 @@ typedef SL_Rpc_Message<SL_Rpc_MessageHeadEx, service::ServiceInfo, service::Mess
 typedef SL_Rpc_Message<SL_Rpc_MessageHeadEx, common::CommonRes, service::MessageType::MT_SERVICE_STATEY_RES> MsgServiceInfoSyncRes;
 
 
+typedef SL_Rpc_Message<SL_Rpc_MessageHeadEx, consumer::ServiceListSyncNotify, consumer::MessageType::MT_SERVICE_LIST_SYNC_NOTIFY> MsgServiceListSyncNotify;
+
 #endif
