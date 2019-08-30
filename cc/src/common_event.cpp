@@ -18,11 +18,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "common_types.h"
+#include "protocol/thrift/common_types.h"
 
 #include "stage_handler.h"
 #include "rpc_queue.h"
-#include "tba_rpc_message.h"
+#include "libtba/tba_rpc_message.h"
 
 using namespace essential;
 

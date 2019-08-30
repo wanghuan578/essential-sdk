@@ -3,7 +3,7 @@
 #define __RPC_EVENT_QUEUE_H__
 
 #include <queue>
-#include "tba_event.h"
+#include "libtba/tba_event.h"
 #include "state.h"
 
 class RpcEvent

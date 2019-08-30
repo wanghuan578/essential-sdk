@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "login_constants.h"
+#include "protocol/thrift/login_constants.h"
 
 namespace essential { namespace login {
 

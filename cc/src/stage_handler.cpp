@@ -1,7 +1,7 @@
 
 #include "stage_handler.h"
-#include "tba_rpc_message.h"
-#include "common_types.h"
+#include "libtba/tba_rpc_message.h"
+#include "protocol/thrift/common_types.h"
 #include <iostream>
 #include <cstdlib>
 #include <event2/bufferevent.h>  
@@ -54,7 +54,7 @@ int MainStageHandler::ClientLoginRes(void *socket_handler,  void *rpc_message, v
 
 	common::AddressInfo address;
 	address.ip = "127.0.0.1";
-	address.port = 9990;
+	address.port = 9999;
 	common::RouteInfo route;
 	route.address = address;
 	route.weight = 99;

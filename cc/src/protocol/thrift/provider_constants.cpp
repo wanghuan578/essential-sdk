@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "provider_constants.h"
+#include "protocol/thrift/provider_constants.h"
 
 namespace essential { namespace provider {
 

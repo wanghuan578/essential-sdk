@@ -9,7 +9,7 @@
 RpcEvent *RpcEvent::Instance_ = NULL;
 
 void biz_loop(volatile bool &state, std::queue<SL_Seda_RpcMessageEvent> &queue);
-void task(RpcEvent *rpc, bufferevent *handle);
+void on_service_loop(RpcEvent *rpc, bufferevent *handle);
 
 RpcEvent::RpcEvent() 
 :running(true)

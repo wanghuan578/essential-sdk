@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "comsumer_constants.h"
+#include "protocol/thrift/comsumer_constants.h"
 
 namespace essential { namespace consumer {
 

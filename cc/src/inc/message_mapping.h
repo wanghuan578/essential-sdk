@@ -2,12 +2,12 @@
 #ifndef __MESSAGE_MAPPING_H__
 #define __MESSAGE_MAPPING_H__
 
-#include "tba_rpc_message.h"
-#include "common_types.h"
-#include "login_types.h"
-#include "provider_types.h"
-#include "comsumer_types.h"
-#include "service_types.h"
+#include "libtba/tba_rpc_message.h"
+#include "protocol/thrift/common_types.h"
+#include "protocol/thrift/login_types.h"
+#include "protocol/thrift/provider_types.h"
+#include "protocol/thrift/comsumer_types.h"
+#include "protocol/thrift/service_types.h"
 
 using namespace essential;
 
