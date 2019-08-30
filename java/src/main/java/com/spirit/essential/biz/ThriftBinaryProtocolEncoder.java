@@ -1,7 +1,7 @@
 package com.spirit.essential.biz;
 
 
-import com.spirit.tba.Exception.TsException;
+import com.spirit.tba.Exception.TbaException;
 import com.spirit.tba.core.TsEvent;
 import com.spirit.tba.core.TsRpcHead;
 import com.spirit.tba.core.TsRpcProtocolFactory;
@@ -24,7 +24,7 @@ public class ThriftBinaryProtocolEncoder extends MessageToByteEncoder<Object> {
 			byte[] buf = protocol.Encode().OutStream().GetBytes();
 			out.writeBytes(buf, 0, buf.length);
 		}
-		catch (TsException e) {
+		catch (TbaException e) {
 			//log.error(e.getLocalizedMessage(), e);
 		}
 	}

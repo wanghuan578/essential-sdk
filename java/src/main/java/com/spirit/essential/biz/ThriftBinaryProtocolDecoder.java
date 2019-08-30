@@ -2,7 +2,7 @@ package com.spirit.essential.biz;
 
 import java.util.List;
 import com.spirit.essential.rpc.protocol.thrift.*;
-import com.spirit.tba.Exception.TsException;
+import com.spirit.tba.Exception.TbaException;
 import com.spirit.tba.core.TsRpcByteBuffer;
 import com.spirit.tba.core.TsRpcEventParser;
 import com.spirit.tba.core.TsRpcHead;
@@ -71,7 +71,7 @@ public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
                         break;
                 }
             }
-            catch(TsException e){
+            catch(TbaException e){
                 //log.error(e.getLocalizedMessage(), e);
             }
             catch(InstantiationException e){
