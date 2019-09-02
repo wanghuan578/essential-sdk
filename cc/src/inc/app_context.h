@@ -1,19 +1,22 @@
 
-#ifndef __RPC_EVENT_QUEUE_H__
-#define __RPC_EVENT_QUEUE_H__
+#ifndef __APPLICATION_CONTEXT_H__
+#define __APPLICATION_CONTEXT_H__
 
 #include <queue>
 #include "libtba/tba_event.h"
 #include "state.h"
+#include <string>
 
-class RpcEvent
+using namespace std;
+
+class ApplicationContext
 {
 public:
-    static RpcEvent *Instance()
+    static ApplicationContext *Instance()
     {
 		if(NULL == Instance_)
 		{
-			Instance_ = new RpcEvent();
+			Instance_ = new ApplicationContext();
 		}
 
 		return Instance_;
@@ -30,14 +33,16 @@ public:
     void set_stat_observer(on_service_fn fn);
 	void sync(void *handle);   
 	on_service_fn on_service;
-	
+	void set_app_name(string name);
+	string get_app_name();	
 private:
-    RpcEvent();
-    ~RpcEvent();
+    ApplicationContext();
+    ~ApplicationContext();
 
     std::queue<SL_Seda_RpcMessageEvent> msg_queue;
     volatile bool running;
-    static RpcEvent *Instance_;
+    static ApplicationContext *Instance_;
+	string app_name;
 };
 #endif
 

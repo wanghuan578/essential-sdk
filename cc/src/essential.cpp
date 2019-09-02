@@ -4,7 +4,7 @@
 #include "common_event.h"
 #include <stdio.h>
 #include <unistd.h>
-#include "rpc_queue.h"
+#include "app_context.h"
 #include <thread>
 
 
@@ -31,6 +31,11 @@ essential_client *essential_client::set_state_hook(on_service_fn cb)
 	return this;
 }
 
+void essential_client::set_app_name(string name) 
+{
+	app_name = name;
+}
+
 void asynchronous(CommonEvent *event)
 {
 	try
@@ -44,8 +49,9 @@ void asynchronous(CommonEvent *event)
 
 void essential_client::start()
 {
-	RpcEvent::Instance()->init();
-	RpcEvent::Instance()->set_stat_observer(hook);
+	ApplicationContext::Instance()->init();
+	ApplicationContext::Instance()->set_stat_observer(hook);
+	ApplicationContext::Instance()->set_app_name(app_name);
 
 	CommonEvent *event = new CommonEvent(ip, port);
 

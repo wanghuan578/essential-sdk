@@ -45,7 +45,7 @@ INCS := -I./src/inc/
 LIBS := -levent -lthrift
 
 cppobjects := $(OBJ_DIR)/common_event.o \
-$(OBJ_DIR)/rpc_queue.o \
+$(OBJ_DIR)/app_context.o \
 $(OBJ_DIR)/stage_handler.o \
 $(OBJ_DIR)/service_types.o \
 $(OBJ_DIR)/service_constants.o \

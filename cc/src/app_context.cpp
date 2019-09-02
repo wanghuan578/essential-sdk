@@ -1,33 +1,33 @@
 
-#include "rpc_queue.h"
+#include "app_context.h"
 #include <unistd.h>
 #include <iostream>
 #include <thread>
 #include "message_mapping.h"
 #include <event2/bufferevent.h> 
 
-RpcEvent *RpcEvent::Instance_ = NULL;
+ApplicationContext *ApplicationContext::Instance_ = NULL;
 
 void biz_loop(volatile bool &state, std::queue<SL_Seda_RpcMessageEvent> &queue);
-void on_service_loop(RpcEvent *rpc, bufferevent *handle);
+void on_service_loop(ApplicationContext *context, bufferevent *handle);
 
-RpcEvent::RpcEvent() 
+ApplicationContext::ApplicationContext() 
 :running(true)
 {
 }
 
-RpcEvent::~RpcEvent()
+ApplicationContext::~ApplicationContext()
 {
 }
 
-bool RpcEvent::init()
+bool ApplicationContext::init()
 {
     std::thread t(biz_loop, std::ref(running), std::ref(msg_queue));
     t.detach();
     return true;
 }
 
-void RpcEvent::push(SL_Seda_RpcMessageEvent ev)
+void ApplicationContext::push(SL_Seda_RpcMessageEvent ev)
 {
     msg_queue.push(ev);
 }
@@ -52,24 +52,34 @@ void biz_loop(volatile bool &state, std::queue<SL_Seda_RpcMessageEvent> &queue)
 
 }
 
-void RpcEvent::set_stat_observer(on_service_fn fn)
+void ApplicationContext::set_stat_observer(on_service_fn fn)
 {
 	this->on_service = fn;
 }
 
-void RpcEvent::sync(void *handle)
+void ApplicationContext::set_app_name(string name)
+{
+	app_name = name;
+}
+
+string ApplicationContext::get_app_name()
+{
+	return app_name;
+}
+
+void ApplicationContext::sync(void *handle)
 {
 	std::thread t(on_service_loop, this, (bufferevent*)handle);
 	t.detach();
 }
 
-void on_service_loop(RpcEvent *rpc, bufferevent *handle) 
+void on_service_loop(ApplicationContext *context, bufferevent *handle) 
 {
 	while(1)
 	{
 		std::shared_ptr<essential::service::ServiceInfo> ptr(new essential::service::ServiceInfo());
 		
-		int rtn = rpc->on_service(ptr);
+		int rtn = context->on_service(ptr);
 		
 		if (1000 == rtn) 
 		{

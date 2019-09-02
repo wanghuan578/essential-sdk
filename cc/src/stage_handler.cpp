@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <event2/bufferevent.h>  
-#include "rpc_queue.h"
+#include "app_context.h"
 
 using namespace std;
 using namespace essential;
@@ -46,8 +46,8 @@ int MainStageHandler::ClientLoginRes(void *socket_handler,  void *rpc_message, v
 {
 	MsgClientLoginRes *res = (MsgClientLoginRes*)rpc_message;
 
-	cout<<"MsgClientLoginRes - error_code: " << res->body_.error_code << endl;
-	cout<<"MsgClientLoginRes - error_text: " << res->body_.error_text << endl;
+	//cout<<"MsgClientLoginRes - error_code: " << res->body_.error_code << endl;
+	cout<<"MsgClientLoginRes: " << res->body_.error_text << endl;
 	
    
 	MsgServiceRegisterReq req;
@@ -58,7 +58,7 @@ int MainStageHandler::ClientLoginRes(void *socket_handler,  void *rpc_message, v
 	common::RouteInfo route;
 	route.address = address;
 	route.weight = 99;
-	route.name = "translate";
+	route.name = ApplicationContext::Instance()->get_app_name();
 	req.body_.route = route;
 	
 	tba_byte_buffer buff(512);
@@ -75,8 +75,8 @@ int MainStageHandler::ServiceRegisterRes(void *socket_handler,  void *rpc_messag
 {
 	MsgServiceRegisterRes *res = (MsgServiceRegisterRes*)rpc_message;
 	
-	cout<<"MsgServiceRegisterRes - error_code: " << res->body_.error_code << endl;
-	cout<<"MsgServiceRegisterRes - error_text: " << res->body_.error_text << endl;
+	//cout<<"MsgServiceRegisterRes - error_code: " << res->body_.error_code << endl;
+	cout<<"MsgServiceRegisterRes: " << res->body_.error_text << endl;
 
 	if(common::ErrorCode::OK != res->body_.error_code)
 	{
@@ -102,8 +102,8 @@ int MainStageHandler::GetServiceListRes(void *socket_handler,	void *rpc_message,
 {
 	MsgGetServiceListRes *res = (MsgGetServiceListRes*)rpc_message;
 
-	cout<<"MsgGetServiceListRes - error_code: " << res->body_.error_code << endl;
-	cout<<"MsgGetServiceListRes - error_text: " << res->body_.error_text << endl;
+	//cout<<"MsgGetServiceListRes - error_code: " << res->body_.error_code << endl;
+	cout<<"MsgGetServiceListRes: " << res->body_.error_text << endl;
 #if 0	
 	MsgServiceInfoSyncReq req;
 	
@@ -135,7 +135,7 @@ int MainStageHandler::GetServiceListRes(void *socket_handler,	void *rpc_message,
 	bufferevent_write((bufferevent*)socket_handler, buff.buffer(), buff.data_size());
 #endif
 
-	RpcEvent::Instance()->sync(socket_handler);
+	ApplicationContext::Instance()->sync(socket_handler);
 
 	delete res;
 
@@ -146,8 +146,8 @@ int MainStageHandler::GetServiceInfoSyncRes(void *socket_handler,  void *rpc_mes
 {
 	MsgServiceInfoSyncRes *res = (MsgServiceInfoSyncRes*)rpc_message;
 	
-	cout<<"MsgServiceInfoSyncRes - error_code: " << res->body_.error_code << endl;
-	cout<<"MsgServiceInfoSyncRes - error_text: " << res->body_.error_text << endl;
+	//cout<<"MsgServiceInfoSyncRes - error_code: " << res->body_.error_code << endl;
+	cout<<"MsgServiceInfoSyncRes: " << res->body_.error_text << endl;
 	
 	
 	delete res;

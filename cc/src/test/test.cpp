@@ -38,6 +38,7 @@ int on_state_update(std::shared_ptr<essential::service::ServiceInfo> ptr)
 int main(int argc, char *const *argv)
 {
 	essential_client client;
+	client.set_app_name("translate");
 	client.set_host("192.168.131.42", 9999);
 	client.set_state_hook(on_state_update);
 	client.start();

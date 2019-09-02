@@ -21,7 +21,7 @@
 #include "protocol/thrift/common_types.h"
 
 #include "stage_handler.h"
-#include "rpc_queue.h"
+#include "app_context.h"
 #include "libtba/tba_rpc_message.h"
 
 using namespace essential;
@@ -132,7 +132,7 @@ void read_cb(struct bufferevent *bev, void *user_data)
 
 	if (rtn >= 0) 
 	{
-		RpcEvent::Instance()->push(rpc_event);
+		ApplicationContext::Instance()->push(rpc_event);
 	}
 
 }
