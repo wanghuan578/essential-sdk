@@ -84,13 +84,12 @@ int MainStageHandler::ServiceRegisterRes(void *socket_handler,  void *rpc_messag
 		return -1;
 	}	
 
-	MsgGetServiceListReq req;
+	ApplicationContext::Instance()->sync(socket_handler);
 
+	MsgGetServiceListReq req;
 	req.body_.service_name = "translate";
-	
 	tba_byte_buffer buff(512);
 	req.serialize_ex<tba_byte_buffer>(&buff);
-
 	bufferevent_write((bufferevent*)socket_handler, buff.buffer(), buff.data_size());
 	
 	delete res;
@@ -104,38 +103,12 @@ int MainStageHandler::GetServiceListRes(void *socket_handler,	void *rpc_message,
 
 	//cout<<"MsgGetServiceListRes - error_code: " << res->body_.error_code << endl;
 	cout<<"MsgGetServiceListRes: " << res->body_.error_text << endl;
-#if 0	
-	MsgServiceInfoSyncReq req;
-	
-	common::RouteInfo route;
-	common::AddressInfo address;
-	address.ip = "192.168.189.130";
-	address.port = 9990;
-	route.address = address;
-	route.weight = 99;
-	route.name = "translate";
 
-	service::ApplicationInfo app;
-	app.ppid = 1;
-	app.pid = 1199;
-	app.current_connections = 1000 + rand()%1000;
-
-	service::SystemInfo system;
-	system.cpu_num = 4;
-	system.mem_total = 99999999;
-	system.mem_avail = 50000000 + rand()%50000000;
-
-	req.body_.app = app;
-	req.body_.system = system;
-	req.body_.route = route;
-	
-	tba_byte_buffer buff(512);
-	req.serialize_ex<tba_byte_buffer>(&buff);
-
-	bufferevent_write((bufferevent*)socket_handler, buff.buffer(), buff.data_size());
-#endif
-
-	ApplicationContext::Instance()->sync(socket_handler);
+	on_get_service_list_func func = ApplicationContext::Instance()->on_service_list;
+	if (NULL != func)
+	{
+		func(res->body_.route_list);
+	}
 
 	delete res;
 
@@ -159,17 +132,21 @@ int MainStageHandler::ServiceListSyncNotify(void *socket_handler,  void *rpc_mes
 {
 	MsgServiceListSyncNotify *notify = (MsgServiceListSyncNotify*)rpc_message;
 
-        cout<<"MsgServiceListSyncNotify - mode: " << notify->body_.mode << endl;
+    cout<<"MsgServiceListSyncNotify - mode: " << notify->body_.mode << endl;
 	cout<<"route - name: " << notify->body_.route.name << endl;
 	cout<<"route - weight: " << notify->body_.route.weight << endl;
 	cout<<"route - address.ip: " << notify->body_.route.address.ip << endl;
 	cout<<"route - address.port: " << notify->body_.route.address.port << endl;
 
+	on_service_list_change_notify_func func = ApplicationContext::Instance()->on_service_change_notify;
+	if (NULL != func)
+	{
+		func(notify->body_.route, notify->body_.mode);
+	}
 
+	delete notify;
 
-        delete notify;
-
-        return 0;
+	return 0;
 }
 
 

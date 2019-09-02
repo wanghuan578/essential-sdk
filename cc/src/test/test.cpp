@@ -1,7 +1,5 @@
 
 #include <iostream>
-//#include <stdio.h>
-//#include <unistd.h>
 #include "essential.h"
 
 
@@ -9,7 +7,7 @@ using namespace std;
 
 int times = 0;
 
-int on_state_update(std::shared_ptr<essential::service::ServiceInfo> ptr)
+int on_server_state_update(std::shared_ptr<essential::service::ServiceInfo> ptr)
 {
 	cout << "state update..." <<endl;
 	
@@ -34,14 +32,32 @@ int on_state_update(std::shared_ptr<essential::service::ServiceInfo> ptr)
 	return 0;
 }
 
+int on_get_service_list(std::list<essential::common::RouteInfo> service_list)
+{
+	return 0;
+}
+
+int on_service_list_change_notify(essential::common::RouteInfo route, string mode)
+{
+	cout<<"mode: " << mode << endl;
+	cout<<"route - name: " << route.name << endl;
+	cout<<"route - weight: " << route.weight << endl;
+	cout<<"route - address.ip: " << route.address.ip << endl;
+	cout<<"route - address.port: " << route.address.port << endl;
+
+	return 0;
+}
 
 int main(int argc, char *const *argv)
 {
 	essential_client client;
 	client.set_app_name("translate");
 	client.set_host("192.168.131.42", 9999);
-	client.set_state_hook(on_state_update);
+	client.set_fetch_update_cb(on_server_state_update);
+	client.set_service_list_cb(on_get_service_list);
+	client.set_service_list_change_notify_cb(on_service_list_change_notify);
 	client.start();
+
 
 	while(1)
 	{

@@ -18,17 +18,25 @@ essential_client::~essential_client()
 
 }
 
-essential_client *essential_client::set_host(string ip, int port)
+void essential_client::set_server_host(string ip, int port)
 {
 	this->ip = ip;
 	this->port = port;
-	return this;
 }
 
-essential_client *essential_client::set_state_hook(on_service_fn cb)
+void essential_client::set_fetch_update_cb(on_update_func cb)
 {
-	hook = cb;
-	return this;
+	server_update_func = cb;
+}
+
+void essential_client::set_service_list_cb(on_get_service_list_func cb)
+{
+	get_service_list_func = cb;
+}
+
+void essential_client::set_service_list_change_notify_cb(on_service_list_change_notify_func cb)
+{
+	service_list_change_notify_func = cb;
 }
 
 void essential_client::set_app_name(string name) 
@@ -50,8 +58,10 @@ void asynchronous(CommonEvent *event)
 void essential_client::start()
 {
 	ApplicationContext::Instance()->init();
-	ApplicationContext::Instance()->set_stat_observer(hook);
 	ApplicationContext::Instance()->set_app_name(app_name);
+	ApplicationContext::Instance()->set_server_update_cb(server_update_func);
+	ApplicationContext::Instance()->set_server_list_cb(get_service_list_func);
+	ApplicationContext::Instance()->set_server_list_change_notify_cb(service_list_change_notify_func);
 
 	CommonEvent *event = new CommonEvent(ip, port);
 

@@ -1,9 +1,12 @@
 
-#ifndef __STATE_H__
-#define __STATE_H__
+#ifndef __SERVICE_ACTION_H__
+#define __SERVICE_ACTION_H__
 
 #include "protocol/thrift/service_types.h"
+#include "protocol/thrift/common_types.h"
 
-typedef int (*on_service_fn)(std::shared_ptr<essential::service::ServiceInfo> ptr);
-typedef int (*state_fn)(int code);
+typedef int (*on_update_func)(std::shared_ptr<essential::service::ServiceInfo> ptr);
+typedef int (*on_get_service_list_func)(std::list<essential::common::RouteInfo> service_list);
+typedef int (*on_service_list_change_notify_func)(essential::common::RouteInfo info, string mode);
+
 #endif

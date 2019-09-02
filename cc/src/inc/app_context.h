@@ -30,11 +30,19 @@ public:
 
     void push(SL_Seda_RpcMessageEvent ev);
     bool init();
-    void set_stat_observer(on_service_fn fn);
 	void sync(void *handle);   
-	on_service_fn on_service;
 	void set_app_name(string name);
-	string get_app_name();	
+	string get_app_name();
+
+public:
+	on_update_func on_update_service;
+	on_get_service_list_func on_service_list;
+	on_service_list_change_notify_func on_service_change_notify;
+
+	void set_server_update_cb(on_update_func cb);
+	void set_server_list_cb(on_get_service_list_func cb);
+	void set_server_list_change_notify_cb(on_service_list_change_notify_func cb);
+
 private:
     ApplicationContext();
     ~ApplicationContext();

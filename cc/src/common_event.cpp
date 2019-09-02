@@ -123,8 +123,8 @@ void read_cb(struct bufferevent *bev, void *user_data)
 		break;
 
 	case consumer::MessageType::MT_SERVICE_LIST_SYNC_NOTIFY:
-                rtn = SL_Rpc_MessageParser::message_to_event<MsgServiceListSyncNotify>((char*)message, msg_len, (void*)bev, MainStageHandler::ServiceListSyncNotify, &rpc_event);
-                break;
+		rtn = SL_Rpc_MessageParser::message_to_event<MsgServiceListSyncNotify>((char*)message, msg_len, (void*)bev, MainStageHandler::ServiceListSyncNotify, &rpc_event);
+		break;
 	
 	default:
 		break;

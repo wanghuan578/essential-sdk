@@ -52,9 +52,19 @@ void biz_loop(volatile bool &state, std::queue<SL_Seda_RpcMessageEvent> &queue)
 
 }
 
-void ApplicationContext::set_stat_observer(on_service_fn fn)
+void ApplicationContext::set_server_update_cb(on_update_func cb)
 {
-	this->on_service = fn;
+	this->on_update_service = cb;
+}
+
+void ApplicationContext::set_server_list_cb(on_get_service_list_func cb)
+{
+	on_service_list = cb;
+}
+
+void ApplicationContext::set_server_list_change_notify_cb(on_service_list_change_notify_func cb)
+{
+	on_service_list_change_notify_func = cb;
 }
 
 void ApplicationContext::set_app_name(string name)
@@ -78,8 +88,13 @@ void on_service_loop(ApplicationContext *context, bufferevent *handle)
 	while(1)
 	{
 		std::shared_ptr<essential::service::ServiceInfo> ptr(new essential::service::ServiceInfo());
-		
-		int rtn = context->on_service(ptr);
+		on_update_func func = context->on_update_service;
+		if (NULL == func)
+		{
+			break;
+		}
+
+		int rtn = func(ptr);
 		
 		if (1000 == rtn) 
 		{
