@@ -64,12 +64,22 @@ void ApplicationContext::set_server_list_cb(on_get_service_list_func cb)
 
 void ApplicationContext::set_server_list_change_notify_cb(on_service_list_change_notify_func cb)
 {
-	on_service_list_change_notify_func = cb;
+	on_service_change_notify = cb;
 }
 
 void ApplicationContext::set_app_name(string name)
 {
 	app_name = name;
+}
+
+void ApplicationContext::set_weight(int weight)
+{
+	this->weight = weight;
+}
+
+int ApplicationContext::get_weight()
+{
+	return weight;
 }
 
 string ApplicationContext::get_app_name()
@@ -111,6 +121,6 @@ void on_service_loop(ApplicationContext *context, bufferevent *handle)
         req.serialize_ex<tba_byte_buffer>(&buff);
         bufferevent_write((bufferevent*)handle, buff.buffer(), buff.data_size());
 		
-		sleep(1);
+		sleep(10);
 	}
 }

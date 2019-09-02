@@ -57,7 +57,7 @@ int MainStageHandler::ClientLoginRes(void *socket_handler,  void *rpc_message, v
 	address.port = 9999;
 	common::RouteInfo route;
 	route.address = address;
-	route.weight = 99;
+	route.weight = ApplicationContext::Instance()->get_weight();
 	route.name = ApplicationContext::Instance()->get_app_name();
 	req.body_.route = route;
 	
@@ -133,10 +133,6 @@ int MainStageHandler::ServiceListSyncNotify(void *socket_handler,  void *rpc_mes
 	MsgServiceListSyncNotify *notify = (MsgServiceListSyncNotify*)rpc_message;
 
     cout<<"MsgServiceListSyncNotify - mode: " << notify->body_.mode << endl;
-	cout<<"route - name: " << notify->body_.route.name << endl;
-	cout<<"route - weight: " << notify->body_.route.weight << endl;
-	cout<<"route - address.ip: " << notify->body_.route.address.ip << endl;
-	cout<<"route - address.port: " << notify->body_.route.address.port << endl;
 
 	on_service_list_change_notify_func func = ApplicationContext::Instance()->on_service_change_notify;
 	if (NULL != func)

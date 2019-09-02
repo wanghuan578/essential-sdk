@@ -32,7 +32,9 @@ public:
     bool init();
 	void sync(void *handle);   
 	void set_app_name(string name);
+	void set_weight(int weight);
 	string get_app_name();
+	int get_weight();
 
 public:
 	on_update_func on_update_service;
@@ -51,6 +53,7 @@ private:
     volatile bool running;
     static ApplicationContext *Instance_;
 	string app_name;
+	int weight;
 };
 #endif
 

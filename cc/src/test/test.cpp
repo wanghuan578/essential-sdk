@@ -9,7 +9,8 @@ int times = 0;
 
 int on_server_state_update(std::shared_ptr<essential::service::ServiceInfo> ptr)
 {
-	cout << "state update..." <<endl;
+	
+	cout << "on_server_state_update: " << endl;
 	
 	ptr->app.ppid = 1;
 	ptr->app.pid = 2288;
@@ -32,19 +33,31 @@ int on_server_state_update(std::shared_ptr<essential::service::ServiceInfo> ptr)
 	return 0;
 }
 
-int on_get_service_list(std::list<essential::common::RouteInfo> service_list)
+int on_get_service_list(std::vector<essential::common::RouteInfo> service_list)
 {
+	cout << "<------------------------------------------------------>" << endl;
+	cout << "on_get_service_list" << endl;
+	for (auto &service : service_list)
+	{
+		cout << "name: " << service.name << endl;
+		cout << "weight: " << service.weight << endl;
+		cout << "ip: " << service.address.ip << ", port: " << service.address.port << endl;
+	}
+	cout << "<------------------------------------------------------->" << endl;
 	return 0;
 }
 
 int on_service_list_change_notify(essential::common::RouteInfo route, string mode)
 {
+	cout << "<------------------------------------------------------>" << endl;
+	cout << "on_service_list_change_notify" << endl;
 	cout<<"mode: " << mode << endl;
 	cout<<"route - name: " << route.name << endl;
 	cout<<"route - weight: " << route.weight << endl;
 	cout<<"route - address.ip: " << route.address.ip << endl;
 	cout<<"route - address.port: " << route.address.port << endl;
 
+	cout << "<------------------------------------------------------>" << endl;
 	return 0;
 }
 
@@ -52,7 +65,8 @@ int main(int argc, char *const *argv)
 {
 	essential_client client;
 	client.set_app_name("translate");
-	client.set_host("192.168.131.42", 9999);
+	client.set_weight(88);
+	client.set_server_host("192.168.131.42", 9999);
 	client.set_fetch_update_cb(on_server_state_update);
 	client.set_service_list_cb(on_get_service_list);
 	client.set_service_list_change_notify_cb(on_service_list_change_notify);

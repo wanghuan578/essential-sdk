@@ -44,6 +44,11 @@ void essential_client::set_app_name(string name)
 	app_name = name;
 }
 
+void essential_client::set_weight(int weight)
+{
+	this->weight = weight;
+}
+
 void asynchronous(CommonEvent *event)
 {
 	try
@@ -59,6 +64,7 @@ void essential_client::start()
 {
 	ApplicationContext::Instance()->init();
 	ApplicationContext::Instance()->set_app_name(app_name);
+	ApplicationContext::Instance()->set_weight(weight);
 	ApplicationContext::Instance()->set_server_update_cb(server_update_func);
 	ApplicationContext::Instance()->set_server_list_cb(get_service_list_func);
 	ApplicationContext::Instance()->set_server_list_change_notify_cb(service_list_change_notify_func);
