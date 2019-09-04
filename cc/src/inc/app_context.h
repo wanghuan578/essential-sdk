@@ -35,8 +35,10 @@ public:
 	void set_weight(int weight);
 	string get_app_name();
 	int get_weight();
-	string register_ip;
-	int register_port;
+	void set_register_ip(string name);
+	void set_register_port(int weight);
+	string get_register_ip();
+	int get_register_port();
 public:
 	on_update_func on_update_service;
 	on_get_service_list_func on_service_list;
@@ -55,6 +57,8 @@ private:
     static ApplicationContext *Instance_;
 	string app_name;
 	int weight;
+	string register_ip;
+	int register_port;
 };
 #endif
 

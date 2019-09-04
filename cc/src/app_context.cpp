@@ -82,6 +82,23 @@ int ApplicationContext::get_weight()
 	return weight;
 }
 
+void ApplicationContext::set_register_ip(string ip)
+{
+	register_ip = ip;
+}
+void ApplicationContext::set_register_port(int port)
+{
+	register_port = port;
+}
+string ApplicationContext::get_register_ip()
+{
+	return register_ip;
+}
+int ApplicationContext::get_register_port()
+{
+	return register_port;
+}
+
 string ApplicationContext::get_app_name()
 {
 	return app_name;
