@@ -35,7 +35,8 @@ public:
 	void set_weight(int weight);
 	string get_app_name();
 	int get_weight();
-
+	string register_ip;
+	int register_port;
 public:
 	on_update_func on_update_service;
 	on_get_service_list_func on_service_list;

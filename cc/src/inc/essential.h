@@ -14,7 +14,8 @@ class essential_client
 public:
 	essential_client();
 	~essential_client();
-	void set_server_host(string ip, int port);
+	void set_essential_host(string ip, int port);
+	void set_register_host(string ip, int port);
 	void set_fetch_update_cb(on_update_func cb);
 	void set_service_list_cb(on_get_service_list_func cb);
 	void set_service_list_change_notify_cb(on_service_list_change_notify_func cb);
@@ -25,6 +26,8 @@ public:
 private:
 	string ip;
 	int port;
+	string register_ip;
+	int register_port;
 	int weight;
 	string app_name;
 	on_update_func server_update_func;

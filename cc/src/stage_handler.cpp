@@ -53,8 +53,8 @@ int MainStageHandler::ClientLoginRes(void *socket_handler,  void *rpc_message, v
 	MsgServiceRegisterReq req;
 
 	common::AddressInfo address;
-	address.ip = "127.0.0.1";
-	address.port = 9999;
+	address.ip = ApplicationContext::Instance()->register_ip;
+	address.port = ApplicationContext::Instance()->register_port;
 	common::RouteInfo route;
 	route.address = address;
 	route.weight = ApplicationContext::Instance()->get_weight();

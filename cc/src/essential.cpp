@@ -18,11 +18,18 @@ essential_client::~essential_client()
 
 }
 
-void essential_client::set_server_host(string ip, int port)
+void essential_client::set_essential_host(string ip, int port)
 {
 	this->ip = ip;
 	this->port = port;
 }
+
+void essential_client::set_register_host(string ip, int port)
+{
+	this->register_ip = ip;
+	this->register_port = port;
+}
+
 
 void essential_client::set_fetch_update_cb(on_update_func cb)
 {
@@ -64,6 +71,8 @@ void essential_client::start()
 {
 	ApplicationContext::Instance()->init();
 	ApplicationContext::Instance()->set_app_name(app_name);
+	ApplicationContext::Instance()->register_ip = register_ip;
+	ApplicationContext::Instance()->register_port = register_port;
 	ApplicationContext::Instance()->set_weight(weight);
 	ApplicationContext::Instance()->set_server_update_cb(server_update_func);
 	ApplicationContext::Instance()->set_server_list_cb(get_service_list_func);

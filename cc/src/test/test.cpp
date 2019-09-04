@@ -66,7 +66,8 @@ int main(int argc, char *const *argv)
 	essential_client client;
 	client.set_app_name("translate");
 	client.set_weight(88);
-	client.set_server_host("192.168.131.42", 9999);
+	client.set_essential_host("192.168.131.42", 9999);
+	client.set_register_host("192.168.131.42", 9999);
 	client.set_fetch_update_cb(on_server_state_update);
 	client.set_service_list_cb(on_get_service_list);
 	client.set_service_list_change_notify_cb(on_service_list_change_notify);
