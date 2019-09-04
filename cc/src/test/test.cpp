@@ -25,6 +25,7 @@ int on_server_state_update(std::shared_ptr<essential::service::ServiceInfo> ptr)
 	ptr->system.mem_avail = 50000000 + rand()%50000000;
 
 	ptr->route.name = "translate";
+	ptr->route.weight = 88; 
 	ptr->route.address.ip = "10.0.0.1";
 	ptr->route.address.port = 9999;
 

@@ -88,7 +88,7 @@ int MainStageHandler::ServiceRegisterRes(void *socket_handler,  void *rpc_messag
 	ApplicationContext::Instance()->sync(socket_handler);
 
 	MsgGetServiceListReq req;
-	req.body_.service_name = "translate";
+	req.body_.service_name = ApplicationContext::Instance()->get_app_name();
 	tba_byte_buffer buff(512);
 	req.serialize_ex<tba_byte_buffer>(&buff);
 	bufferevent_write((bufferevent*)socket_handler, buff.buffer(), buff.data_size());
