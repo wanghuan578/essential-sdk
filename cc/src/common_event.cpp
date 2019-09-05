@@ -156,6 +156,8 @@ void event_cb(struct bufferevent *bev, short events, void *user_data)
         ApplicationContext::Instance()->shutdown_gracefully();
 
 		bufferevent_free(bev);
+
+		ApplicationContext::Instance()->on_close(strerror(errno));
     }
     else if(events & BEV_EVENT_CONNECTED)
     {

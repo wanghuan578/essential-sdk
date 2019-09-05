@@ -62,6 +62,11 @@ int on_service_list_change_notify(essential::common::RouteInfo route, string mod
 	return 0;
 }
 
+void on_close_notify(string error)
+{
+	cout << "on_close_notify: " << error << endl;
+}
+
 int main(int argc, char *const *argv)
 {
 	essential_client client;
@@ -72,6 +77,7 @@ int main(int argc, char *const *argv)
 	client.set_fetch_update_cb(on_server_state_update);
 	client.set_service_list_cb(on_get_service_list);
 	client.set_service_list_change_notify_cb(on_service_list_change_notify);
+	client.set_close_cb(on_close_notify);
 	client.start();
 
 

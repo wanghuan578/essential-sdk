@@ -67,6 +67,11 @@ void ApplicationContext::set_server_list_change_notify_cb(on_service_list_change
 	on_service_change_notify = cb;
 }
 
+void ApplicationContext::set_close_cb(on_close_func cb)
+{
+	on_close_notify = cb;
+}
+
 void ApplicationContext::set_app_name(string name)
 {
 	app_name = name;
@@ -148,9 +153,10 @@ void service_update_loop(ApplicationContext *context, bufferevent *handle)
 bool ApplicationContext::shutdown_gracefully()
 {
 	running = false;
-
-	while(1)
-	{
-
-	}
 }
+
+bool ApplicationContext::on_close(string error)
+{
+	on_close_notify(error);
+}
+

@@ -40,14 +40,18 @@ public:
 	string get_register_ip();
 	int get_register_port();
 	bool shutdown_gracefully();
+	bool on_close(string error);
 public:
 	on_update_func on_update_service;
 	on_get_service_list_func on_service_list;
 	on_service_list_change_notify_func on_service_change_notify;
+	on_close_func on_close_notify;
 
 	void set_server_update_cb(on_update_func cb);
 	void set_server_list_cb(on_get_service_list_func cb);
 	void set_server_list_change_notify_cb(on_service_list_change_notify_func cb);
+	void set_close_cb(on_service_list_change_notify_func cb);
+
 
 private:
     ApplicationContext();

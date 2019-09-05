@@ -40,6 +40,10 @@ void essential_client::set_service_list_cb(on_get_service_list_func cb)
 	get_service_list_func = cb;
 }
 
+void essential_client::set_close_cb(on_close_func cb)
+{
+	on_close_notify_func = cb;
+}
 void essential_client::set_service_list_change_notify_cb(on_service_list_change_notify_func cb)
 {
 	service_list_change_notify_func = cb;
@@ -76,6 +80,7 @@ void essential_client::start()
 	ApplicationContext::Instance()->set_server_update_cb(server_update_func);
 	ApplicationContext::Instance()->set_server_list_cb(get_service_list_func);
 	ApplicationContext::Instance()->set_server_list_change_notify_cb(service_list_change_notify_func);
+	ApplicationContext::Instance()->set_close_cb(on_close_notify_func);
 
 	CommonEvent *event = new CommonEvent(ip, port);
 
