@@ -5,11 +5,12 @@
 #include <thread>
 #include "message_mapping.h"
 #include <event2/bufferevent.h> 
+#include <chrono>
 
 ApplicationContext *ApplicationContext::Instance_ = NULL;
 
 void biz_loop(volatile bool &state, std::queue<SL_Seda_RpcMessageEvent> &queue);
-void on_service_loop(ApplicationContext *context, bufferevent *handle);
+void service_update_loop(ApplicationContext *context, bufferevent *handle);
 
 ApplicationContext::ApplicationContext() 
 :running(true)
@@ -45,9 +46,8 @@ void biz_loop(volatile bool &state, std::queue<SL_Seda_RpcMessageEvent> &queue)
 		    queue.pop();
 		}
 		
-		//std::cout << "wait..." << std::endl;
 
-		usleep(100000);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
 }
@@ -106,13 +106,13 @@ string ApplicationContext::get_app_name()
 
 void ApplicationContext::sync(void *handle)
 {
-	std::thread t(on_service_loop, this, (bufferevent*)handle);
+	std::thread t(service_update_loop, this, (bufferevent*)handle);
 	t.detach();
 }
 
-void on_service_loop(ApplicationContext *context, bufferevent *handle) 
+void service_update_loop(ApplicationContext *context, bufferevent *handle)
 {
-	while(1)
+	while(context->running)
 	{
 		std::shared_ptr<essential::service::ServiceInfo> ptr(new essential::service::ServiceInfo());
 		on_update_func func = context->on_update_service;
@@ -136,8 +136,21 @@ void on_service_loop(ApplicationContext *context, bufferevent *handle)
 
         tba_byte_buffer buff(512);
         req.serialize_ex<tba_byte_buffer>(&buff);
-        bufferevent_write((bufferevent*)handle, buff.buffer(), buff.data_size());
-		
-		sleep(10);
+        //if (context->running)
+        {
+        	bufferevent_write((bufferevent*)handle, buff.buffer(), buff.data_size());
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        //std::this_thread::sleep_for(std::chrono::seconds(10));
+	}
+}
+
+bool ApplicationContext::shutdown_gracefully()
+{
+	running = false;
+
+	while(1)
+	{
+
 	}
 }

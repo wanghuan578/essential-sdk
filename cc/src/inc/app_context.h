@@ -39,6 +39,7 @@ public:
 	void set_register_port(int weight);
 	string get_register_ip();
 	int get_register_port();
+	bool shutdown_gracefully();
 public:
 	on_update_func on_update_service;
 	on_get_service_list_func on_service_list;

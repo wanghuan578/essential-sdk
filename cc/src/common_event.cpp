@@ -153,6 +153,8 @@ void event_cb(struct bufferevent *bev, short events, void *user_data)
     {
         cout << "error on the connection: " << strerror(errno) << endl;
 		
+        ApplicationContext::Instance()->shutdown_gracefully();
+
 		bufferevent_free(bev);
     }
     else if(events & BEV_EVENT_CONNECTED)
