@@ -62,9 +62,11 @@ int on_service_list_change_notify(essential::common::RouteInfo route, string mod
 	return 0;
 }
 
-void on_close_notify(string error)
+int on_close_notify(string error)
 {
 	cout << "on_close_notify: " << error << endl;
+	exit(0);
+	return 0;
 }
 
 int main(int argc, char *const *argv)

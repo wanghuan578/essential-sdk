@@ -51,7 +51,7 @@ public:
 	void set_server_update_cb(on_update_func cb);
 	void set_server_list_cb(on_get_service_list_func cb);
 	void set_server_list_change_notify_cb(on_service_list_change_notify_func cb);
-	void set_close_cb(on_service_list_change_notify_func cb);
+	void set_close_cb(on_close_func cb);
 
 
 private:
