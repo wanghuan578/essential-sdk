@@ -151,7 +151,7 @@ void event_cb(struct bufferevent *bev, short events, void *user_data)
     }
     else if (events & BEV_EVENT_ERROR)
     {
-        cout << "error on the connection: " << strerror(errno) << endl;
+        cout << "server disconnection: " << strerror(errno) << endl;
 		
         ApplicationContext::Instance()->shutdown_gracefully();
 
@@ -161,7 +161,7 @@ void event_cb(struct bufferevent *bev, short events, void *user_data)
     }
     else if(events & BEV_EVENT_CONNECTED)
     {
-        cout << "connect succeed" << endl;
+        //cout << "connect succeed" << endl;
     }
    
     

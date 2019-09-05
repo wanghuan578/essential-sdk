@@ -115,9 +115,14 @@ void ApplicationContext::sync(void *handle)
 	t.detach();
 }
 
+bool ApplicationContext::is_running()
+{
+	return running;
+}
+
 void service_update_loop(ApplicationContext *context, bufferevent *handle)
 {
-	while(context->running)
+	while(context->is_running())
 	{
 		std::shared_ptr<essential::service::ServiceInfo> ptr(new essential::service::ServiceInfo());
 		on_update_func func = context->on_update_service;
@@ -141,12 +146,9 @@ void service_update_loop(ApplicationContext *context, bufferevent *handle)
 
         tba_byte_buffer buff(512);
         req.serialize_ex<tba_byte_buffer>(&buff);
-        //if (context->running)
-        {
-        	bufferevent_write((bufferevent*)handle, buff.buffer(), buff.data_size());
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        //std::this_thread::sleep_for(std::chrono::seconds(10));
+        bufferevent_write((bufferevent*)handle, buff.buffer(), buff.data_size());
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::seconds(5));
 	}
 }
 
