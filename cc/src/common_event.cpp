@@ -97,7 +97,7 @@ void read_cb(struct bufferevent *bev, void *user_data)
 	SL_Rpc_MessageParser::parse_head_ex<SL_Rpc_MessageHeadEx>((char*)message, sizeof(SL_Rpc_MessageHeadEx));//header parser
 	SL_Rpc_MessageHeadEx *msg_head = (SL_Rpc_MessageHeadEx*)message;
 	
-	cout << "message type: " << msg_head->type << endl;
+	//cout << "message type: " << msg_head->type << endl;
 	int rtn = -1;	
 	SL_Seda_RpcMessageEvent rpc_event;
 	switch (msg_head->type)

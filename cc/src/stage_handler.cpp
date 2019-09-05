@@ -121,7 +121,7 @@ int MainStageHandler::GetServiceInfoSyncRes(void *socket_handler,  void *rpc_mes
 	MsgServiceInfoSyncRes *res = (MsgServiceInfoSyncRes*)rpc_message;
 	
 	//cout<<"MsgServiceInfoSyncRes - error_code: " << res->body_.error_code << endl;
-	cout<<"MsgServiceInfoSyncRes: " << res->body_.error_text << endl;
+	cout<<"server info sync res: [" << res->body_.error_text << "]" <<  endl;
 	
 	
 	delete res;
