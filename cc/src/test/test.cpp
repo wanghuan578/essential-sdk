@@ -25,8 +25,8 @@ int on_server_state_update(std::shared_ptr<essential::service::ServiceInfo> ptr)
 	ptr->system.mem_avail = 50000000 + rand()%50000000;
 
 	ptr->route.name = "translate";
-	ptr->route.weight = 100; 
-	ptr->route.address.ip = "10.0.0.3";
+	ptr->route.weight = 70; 
+	ptr->route.address.ip = "10.0.0.1";
 	ptr->route.address.port = 9999;
 
 	times++;
@@ -66,9 +66,9 @@ int main(int argc, char *const *argv)
 {
 	essential_client client;
 	client.set_app_name("translate");
-	client.set_weight(100);
+	client.set_weight(70);
 	client.set_essential_host("192.168.131.42", 9999);
-	client.set_register_host("10.0.0.3", 9999);
+	client.set_register_host("10.0.0.1", 9999);
 	client.set_fetch_update_cb(on_server_state_update);
 	client.set_service_list_cb(on_get_service_list);
 	client.set_service_list_change_notify_cb(on_service_list_change_notify);

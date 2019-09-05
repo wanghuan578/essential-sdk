@@ -39,6 +39,7 @@ public:
 	void set_register_port(int weight);
 	string get_register_ip();
 	int get_register_port();
+	bool is_running();
 	bool shutdown_gracefully();
 public:
 	on_update_func on_update_service;
