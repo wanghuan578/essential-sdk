@@ -5,11 +5,14 @@ import com.alibaba.fastjson.JSON;
 import com.spirit.essential.rpc.protocol.thrift.*;
 import com.spirit.essential.session.session;
 import com.spirit.essential.task.Task;
-import com.spirit.tba.core.TsEvent;
-import com.spirit.tba.core.TsRpcHead;
+import com.spirit.tba.core.TbaEncryptType;
+import com.spirit.tba.core.TbaEvent;
+import com.spirit.tba.core.TbaRpcHead;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
+
 
 
 @Sharable
@@ -41,8 +44,8 @@ public class ClientHandler extends SimpleChannelInboundHandler{
     		req.setClient_mac("112233445566");
     		req.setClient_version("1.0.0.0");
 
-			TsRpcHead head = new TsRpcHead(RpcEventType.MT_CLIENT_PASSWORD_LOGIN_REQ);
-			ctx.write(new TsEvent(head, req, 1024));
+			TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_CLIENT_PASSWORD_LOGIN_REQ);
+			ctx.write(new TbaEvent(head, req, 1024, TbaEncryptType.DISABLE));
 			ctx.flush();
     	}
     	else if (msg instanceof ClientLoginRes) {
@@ -60,8 +63,8 @@ public class ClientHandler extends SimpleChannelInboundHandler{
 			info.address = addr;
 			req.route = info;
 
-			TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_REGISTER_REQ);
-			ctx.write(new TsEvent(head, req, 1024));
+			TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_SERVICE_REGISTER_REQ);
+			ctx.write(new TbaEvent(head, req, 1024, TbaEncryptType.DISABLE));
 			ctx.flush();
     	}
 		else if (msg instanceof ServiceRegisterRes) {
@@ -72,8 +75,8 @@ public class ClientHandler extends SimpleChannelInboundHandler{
 			ServiceListReq req = new ServiceListReq();
 			req.service_name = "translate";
 
-			TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_LIST_REQ);
-			ctx.write(new TsEvent(head, req, 1024));
+			TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_SERVICE_LIST_REQ);
+			ctx.write(new TbaEvent(head, req, 1024, TbaEncryptType.DISABLE));
 			ctx.flush();
 
 		}else if (msg instanceof ServiceListRes) {
@@ -90,8 +93,8 @@ public class ClientHandler extends SimpleChannelInboundHandler{
 
 			ServiceListSyncRes req = new ServiceListSyncRes();
 
-			TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_LIST_CHANGE_RES);
-			ctx.write(new TsEvent(head, req, 1024));
+			TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_SERVICE_LIST_CHANGE_RES);
+			ctx.write(new TbaEvent(head, req, 1024, TbaEncryptType.DISABLE));
 			ctx.flush();
 		}
     }

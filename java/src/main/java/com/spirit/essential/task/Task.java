@@ -4,8 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.spirit.essential.biz.RpcEventType;
 import com.spirit.essential.rpc.protocol.thrift.*;
 import com.spirit.essential.session.session;
-import com.spirit.tba.core.TsEvent;
-import com.spirit.tba.core.TsRpcHead;
+import com.spirit.tba.core.TbaEncryptType;
+import com.spirit.tba.core.TbaEvent;
+import com.spirit.tba.core.TbaRpcHead;
 
 import java.util.Random;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -45,8 +46,8 @@ public class Task {
                 req.route = route;
                 req.system = system;
 
-                TsRpcHead head = new TsRpcHead(MT_SERVICE_QUALITY_SYNC.getValue());
-                session.getInstance().getCtx().write(new TsEvent(head, req, 1024));
+                TbaRpcHead head = new TbaRpcHead(MT_SERVICE_QUALITY_SYNC.getValue());
+                session.getInstance().getCtx().write(new TbaEvent(head, req, 1024, TbaEncryptType.DISABLE));
                 session.getInstance().getCtx().flush();
                 System.out.println("ServiceInfo: " + JSON.toJSONString(req, true));
             }
